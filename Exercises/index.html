@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python練習問題100選</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">🐍</span>
+                    <h1>Python練習100</h1>
+                </div>
+                <p class="subtitle">初心者向けプログラミング学習</p>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="問題を検索...">
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text"><span id="completedCount">0</span>/100 完了</p>
+            </div>
+            
+            <nav class="category-nav">
+                <div class="category" data-category="basics">
+                    <div class="category-header">
+                        <span class="category-icon">📝</span>
+                        <span>基礎編 (1-20)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="basics-list"></ul>
+                </div>
+                
+                <div class="category" data-category="input">
+                    <div class="category-header">
+                        <span class="category-icon">⌨️</span>
+                        <span>入力編 (21-30)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="input-list"></ul>
+                </div>
+                
+                <div class="category" data-category="condition">
+                    <div class="category-header">
+                        <span class="category-icon">🔀</span>
+                        <span>条件分岐編 (31-50)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="condition-list"></ul>
+                </div>
+                
+                <div class="category" data-category="loop">
+                    <div class="category-header">
+                        <span class="category-icon">🔁</span>
+                        <span>繰り返し編 (51-70)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="loop-list"></ul>
+                </div>
+                
+                <div class="category" data-category="list">
+                    <div class="category-header">
+                        <span class="category-icon">📋</span>
+                        <span>リスト編 (71-85)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="list-list"></ul>
+                </div>
+                
+                <div class="category" data-category="advanced">
+                    <div class="category-header">
+                        <span class="category-icon">🚀</span>
+                        <span>辞書・関数編 (86-100)</span>
+                        <span class="category-arrow">▼</span>
+                    </div>
+                    <ul class="exercise-list" id="advanced-list"></ul>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <div class="exercise-badge" id="exerciseBadge">問題 01</div>
+                <h2 id="exerciseTitle">Hello World</h2>
+                <div class="skill-tag" id="skillTag">print文の基本</div>
+            </div>
+            
+            <div class="content-body">
+                <!-- Task Section -->
+                <section class="card task-card">
+                    <div class="card-header">
+                        <span class="card-icon">📌</span>
+                        <h3>課題</h3>
+                    </div>
+                    <div class="card-content">
+                        <p id="taskDescription">「Hello World」と表示するプログラムを作成してください。</p>
+                    </div>
+                </section>
+                
+                <!-- Hint Section -->
+                <section class="card hint-card">
+                    <div class="card-header">
+                        <span class="card-icon">💡</span>
+                        <h3>ヒント</h3>
+                    </div>
+                    <div class="card-content">
+                        <p id="hintContent">学習スキル: print文の基本</p>
+                        <p class="hint-note">エラーが出たらメッセージをよく読んでみましょう</p>
+                    </div>
+                </section>
+                
+                <!-- Code Editor Section -->
+                <section class="card code-card">
+                    <div class="card-header">
+                        <span class="card-icon">💻</span>
+                        <h3>コードを書こう</h3>
+                        <div class="code-actions">
+                            <button class="btn btn-secondary" id="resetBtn">リセット</button>
+                            <button class="btn btn-primary" id="saveBtn">保存</button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="code-editor">
+                            <div class="line-numbers" id="lineNumbers"></div>
+                            <textarea id="codeEditor" spellcheck="false" placeholder="# ここにコードを書いてください"></textarea>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Explanation Section -->
+                <section class="card explanation-card collapsed">
+                    <div class="card-header clickable" id="explanationToggle">
+                        <span class="card-icon">📖</span>
+                        <h3>解説</h3>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="card-content">
+                        <pre id="explanationContent" class="explanation-code"></pre>
+                    </div>
+                </section>
+                
+                <!-- Navigation -->
+                <div class="navigation-buttons">
+                    <button class="btn btn-nav" id="prevBtn">
+                        <span>←</span> 前の問題
+                    </button>
+                    <button class="btn btn-complete" id="completeBtn">
+                        ✓ 完了にする
+                    </button>
+                    <button class="btn btn-nav" id="nextBtn">
+                        次の問題 <span>→</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="exercises.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
