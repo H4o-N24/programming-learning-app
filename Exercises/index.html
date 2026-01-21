@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Python練習問題100選</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -20,18 +24,18 @@
                 </div>
                 <p class="subtitle">初心者向けプログラミング学習</p>
             </div>
-            
+
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="問題を検索...">
             </div>
-            
+
             <div class="progress-section">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
                 <p class="progress-text"><span id="completedCount">0</span>/100 完了</p>
             </div>
-            
+
             <nav class="category-nav">
                 <div class="category" data-category="basics">
                     <div class="category-header">
@@ -41,7 +45,7 @@
                     </div>
                     <ul class="exercise-list" id="basics-list"></ul>
                 </div>
-                
+
                 <div class="category" data-category="input">
                     <div class="category-header">
                         <span class="category-icon">⌨️</span>
@@ -50,7 +54,7 @@
                     </div>
                     <ul class="exercise-list" id="input-list"></ul>
                 </div>
-                
+
                 <div class="category" data-category="condition">
                     <div class="category-header">
                         <span class="category-icon">🔀</span>
@@ -59,7 +63,7 @@
                     </div>
                     <ul class="exercise-list" id="condition-list"></ul>
                 </div>
-                
+
                 <div class="category" data-category="loop">
                     <div class="category-header">
                         <span class="category-icon">🔁</span>
@@ -68,7 +72,7 @@
                     </div>
                     <ul class="exercise-list" id="loop-list"></ul>
                 </div>
-                
+
                 <div class="category" data-category="list">
                     <div class="category-header">
                         <span class="category-icon">📋</span>
@@ -77,7 +81,7 @@
                     </div>
                     <ul class="exercise-list" id="list-list"></ul>
                 </div>
-                
+
                 <div class="category" data-category="advanced">
                     <div class="category-header">
                         <span class="category-icon">🚀</span>
@@ -87,8 +91,21 @@
                     <ul class="exercise-list" id="advanced-list"></ul>
                 </div>
             </nav>
+
+            <div class="data-management">
+                <h3>データ管理</h3>
+                <div class="data-actions">
+                    <button class="btn btn-sm btn-outline" id="exportBtn">
+                        <span>↓</span> 保存（エクスポート）
+                    </button>
+                    <button class="btn btn-sm btn-outline" id="importBtn">
+                        <span>↑</span> 復元（インポート）
+                    </button>
+                    <input type="file" id="importInput" accept=".json" style="display: none;">
+                </div>
+            </div>
         </aside>
-        
+
         <!-- Main Content -->
         <main class="main-content">
             <div class="content-header">
@@ -96,7 +113,7 @@
                 <h2 id="exerciseTitle">Hello World</h2>
                 <div class="skill-tag" id="skillTag">print文の基本</div>
             </div>
-            
+
             <div class="content-body">
                 <!-- Task Section -->
                 <section class="card task-card">
@@ -108,7 +125,7 @@
                         <p id="taskDescription">「Hello World」と表示するプログラムを作成してください。</p>
                     </div>
                 </section>
-                
+
                 <!-- Hint Section -->
                 <section class="card hint-card">
                     <div class="card-header">
@@ -120,25 +137,60 @@
                         <p class="hint-note">エラーが出たらメッセージをよく読んでみましょう</p>
                     </div>
                 </section>
-                
+
+                <!-- Example Output Section -->
+                <section class="card example-card">
+                    <div class="card-header">
+                        <span class="card-icon">📤</span>
+                        <h3>出力例</h3>
+                    </div>
+                    <div class="card-content">
+                        <pre id="exampleOutput" class="example-output">Hello World</pre>
+                    </div>
+                </section>
+
                 <!-- Code Editor Section -->
                 <section class="card code-card">
                     <div class="card-header">
                         <span class="card-icon">💻</span>
                         <h3>コードを書こう</h3>
-                        <div class="code-actions">
-                            <button class="btn btn-secondary" id="resetBtn">リセット</button>
-                            <button class="btn btn-primary" id="saveBtn">保存</button>
-                        </div>
                     </div>
                     <div class="card-content">
-                        <div class="code-editor">
-                            <div class="line-numbers" id="lineNumbers"></div>
-                            <textarea id="codeEditor" spellcheck="false" placeholder="# ここにコードを書いてください"></textarea>
+                        <div class="editor-header">
+                            <span>Python Code</span>
+                            <button class="btn btn-primary btn-sm" id="runBtn" disabled>
+                                <span id="runBtnText">Loading Python...</span>
+                                <span class="shortcut">Ctrl+Enter</span>
+                            </button>
+                            <button class="btn btn-outline btn-sm" id="resetBtn">リセット</button>
+                        </div>
+                        <div class="editor-container">
+                            <div class="line-numbers" id="lineNumbers">1</div>
+                            <textarea id="codeEditor" spellcheck="false" placeholder="# ここにコードを書いてください..."></textarea>
+                        </div>
+
+                        <div class="output-panel">
+                            <div class="output-header">
+                                <span>出力結果</span>
+                                <span id="statusIndicator"></span>
+                            </div>
+                            <div class="console" id="consoleOutput">実行待ち...</div>
+                        </div>
+
+                        <div class="sample-answer-panel" id="sampleAnswerPanel" style="display: none;">
+                            <div class="sample-answer-header">
+                                <span>📝 模範解答</span>
+                                <button class="btn btn-sm btn-outline" id="toggleSampleBtn">表示</button>
+                            </div>
+                            <pre class="sample-code" id="sampleCode" style="display: none;"></pre>
+                        </div>
+
+                        <div class="action-bar">
+                            <button class="btn btn-secondary" id="saveBtn">保存</button>
                         </div>
                     </div>
                 </section>
-                
+
                 <!-- Explanation Section -->
                 <section class="card explanation-card collapsed">
                     <div class="card-header clickable" id="explanationToggle">
@@ -150,7 +202,7 @@
                         <pre id="explanationContent" class="explanation-code"></pre>
                     </div>
                 </section>
-                
+
                 <!-- Navigation -->
                 <div class="navigation-buttons">
                     <button class="btn btn-nav" id="prevBtn">
@@ -166,8 +218,10 @@
             </div>
         </main>
     </div>
-    
+
     <script src="exercises.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
