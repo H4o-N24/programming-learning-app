@@ -1,4 +1,25 @@
-// Python練習問題100選 - アプリケーションロジック
+/**
+ * ============================================================================
+ * Python練習問題100選 - アプリケーションロジック
+ * ============================================================================
+ * 
+ * このファイルはPython練習問題Webアプリのメインロジックを含みます。
+ * 
+ * 構造:
+ * - ExerciseApp クラス
+ *   - 初期化 (constructor, init, initPyodide)
+ *   - データ永続化 (loadCompleted, saveCompleted, loadUserCodes, saveUserCodes)
+ *   - UI更新 (updateProgress, renderExerciseLists, loadExercise, updateLineNumbers)
+ *   - イベントハンドリング (bindEvents)
+ *   - コード実行・検証 (runCode, verifyOutput)
+ *   - 出力例・模範解答 (getExampleOutput, showSampleAnswer, getSampleAnswer)
+ *   - データ管理 (exportData, importData)
+ *   - ユーティリティ (showToast)
+ * 
+ * 依存関係:
+ * - exercises.js (練習問題データ)
+ * - Pyodide (ブラウザ内Python実行環境)
+ */
 
 class ExerciseApp {
     constructor() {
