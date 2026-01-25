@@ -85,6 +85,13 @@ class DraftGenerateRequest(BaseModel):
     plan_details: str
 
 
+class RefineRequest(BaseModel):
+    user_id: int
+    subsidy_id: int
+    current_text: str
+    focus_point: Optional[str] = None
+
+
 class DraftGenerateResponse(BaseModel):
     draft_id: int
     draft_text: str

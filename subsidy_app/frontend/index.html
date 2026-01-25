@@ -23,7 +23,11 @@
             </div>
             <div class="nav-menu">
                 <button class="nav-item active" data-screen="home" onclick="showScreen('home')">ホーム</button>
+                <button class="nav-item" data-screen="pricing" onclick="showScreen('pricing')">料金</button>
                 <button class="nav-item" data-screen="dashboard" onclick="showScreen('dashboard')">マイページ</button>
+            </div>
+            <div id="nav-auth" class="nav-auth">
+                <button class="btn btn-primary btn-sm btn-login-nav" onclick="showLoginModal()">ログイン</button>
             </div>
         </nav>
 
@@ -192,97 +196,128 @@
                     <p id="apply-subsidy-name">対象制度名</p>
                 </div>
 
-                <!-- STEP 1: 事業者情報 -->
-                <div class="form-section">
-                    <h3>1. 事業者情報</h3>
-                    <div class="form-group">
-                        <label for="business-name">事業者名・店舗名 <span class="required">*</span></label>
-                        <input type="text" id="business-name" placeholder="例：株式会社サンプル / サンプル商店">
+                <div class="apply-tab-container">
+                    <button class="apply-tab active" id="tab-create" onclick="switchApplyMode('create')">ゼロから作成</button>
+                    <button class="apply-tab" id="tab-refine" onclick="switchApplyMode('refine')">既存文を添削</button>
+                </div>
+
+                <!-- CREATE MODE -->
+                <div id="apply-mode-create">
+
+                    <!-- STEP 1: 事業者情報 -->
+                    <div class="form-section">
+                        <h3>1. 事業者情報</h3>
+                        <div class="form-group">
+                            <label for="business-name">事業者名・店舗名 <span class="required">*</span></label>
+                            <input type="text" id="business-name" placeholder="例：株式会社サンプル / サンプル商店">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="user-industry">業種 <span class="required">*</span></label>
+                                <input type="text" id="user-industry" placeholder="例：小売業" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-region">所在地 <span class="required">*</span></label>
+                                <input type="text" id="user-region" placeholder="例：東京都" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="employee-count">従業員数</label>
+                                <input type="number" id="employee-count" placeholder="例：5" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="annual-sales">年間売上高（万円）</label>
+                                <input type="number" id="annual-sales" placeholder="例：3000" min="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="business-history">創業年・事業歴</label>
+                            <input type="text" id="business-history" placeholder="例：2015年創業（10年目）">
+                        </div>
                     </div>
-                    <div class="form-row">
+
+                    <!-- STEP 2: 現状の課題 -->
+                    <div class="form-section">
+                        <h3>2. 現状の課題</h3>
                         <div class="form-group">
-                            <label for="user-industry">業種 <span class="required">*</span></label>
-                            <input type="text" id="user-industry" placeholder="例：小売業" readonly>
+                            <label for="current-problem">現在抱えている課題・問題点 <span class="required">*</span></label>
+                            <textarea id="current-problem" rows="4"
+                                placeholder="例：在庫管理を手書き帳簿で行っており、記録ミスが頻発。棚卸作業に毎月2日間を要し、本来の営業活動に支障が出ている。"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="user-region">所在地 <span class="required">*</span></label>
-                            <input type="text" id="user-region" placeholder="例：東京都" readonly>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="employee-count">従業員数</label>
-                            <input type="number" id="employee-count" placeholder="例：5" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="annual-sales">年間売上高（万円）</label>
-                            <input type="number" id="annual-sales" placeholder="例：3000" min="0">
+                            <label for="problem-impact">課題による具体的な影響（数値があれば）</label>
+                            <textarea id="problem-impact" rows="3"
+                                placeholder="例：月間約10件の在庫切れによる販売機会損失（推定15万円/月）、棚卸作業に月16時間のロス"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="business-history">創業年・事業歴</label>
-                        <input type="text" id="business-history" placeholder="例：2015年創業（10年目）">
+
+                    <!-- STEP 3: 投資計画 -->
+                    <div class="form-section">
+                        <h3>3. 投資計画</h3>
+                        <div class="form-group">
+                            <label for="investment-content">導入予定の設備・システム <span class="required">*</span></label>
+                            <textarea id="investment-content" rows="3"
+                                placeholder="例：クラウド型POSレジシステム（タブレット端末2台、バーコードリーダー、レシートプリンター含む）"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="investment-amount">投資予定額（万円）</label>
+                                <input type="number" id="investment-amount" placeholder="例：80" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="investment-timing">導入予定時期</label>
+                                <input type="text" id="investment-timing" placeholder="例：2024年6月">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: 期待効果 -->
+                    <div class="form-section">
+                        <h3>4. 期待される効果</h3>
+                        <div class="form-group">
+                            <label for="expected-effect">導入による期待効果 <span class="required">*</span></label>
+                            <textarea id="expected-effect" rows="4"
+                                placeholder="例：リアルタイム在庫管理により在庫切れを防止し、販売機会損失を解消。棚卸作業時間を月2時間に短縮。顧客購買データの蓄積・分析によるマーケティング精度向上。"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="sales-increase">売上向上見込（%）</label>
+                                <input type="number" id="sales-increase" placeholder="例：10" min="0" max="100">
+                            </div>
+                            <div class="form-group">
+                                <label for="cost-reduction">コスト削減見込（%）</label>
+                                <input type="number" id="cost-reduction" placeholder="例：20" min="0" max="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg w-full" onclick="generateDraft()" id="generate-btn">
+                        事業計画書ドラフトを生成
+                    </button>
+                </div><!-- End apply-mode-create -->
+
+                <!-- REFINE MODE -->
+                <div id="apply-mode-refine" style="display: none;">
+                    <div class="form-section">
+                        <h3>事業計画書の添削・ブラッシュアップ</h3>
+                        <p style="margin-bottom: 24px; color: var(--text-secondary);">
+                            既にお持ちの事業計画書テキストを貼り付けてください。プロの視点でより採択されやすい内容に改善します。</p>
+                        <div class="form-group">
+                            <label>現在の事業計画書ドラフト <span class="required">*</span></label>
+                            <textarea id="refine-text" rows="12"
+                                placeholder="ここに添削したい文章を貼り付けてください...&#10;例：&#10;1. 事業概要&#10;..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>特に見てほしいポイント（任意）</label>
+                            <input type="text" id="refine-focus" placeholder="例: 具体的な数値計画が弱いので補強したい">
+                        </div>
+                        <button class="btn btn-primary btn-lg w-full" onclick="refineDraft()">
+                            AI添削を実行する
+                        </button>
                     </div>
                 </div>
 
-                <!-- STEP 2: 現状の課題 -->
-                <div class="form-section">
-                    <h3>2. 現状の課題</h3>
-                    <div class="form-group">
-                        <label for="current-problem">現在抱えている課題・問題点 <span class="required">*</span></label>
-                        <textarea id="current-problem" rows="4"
-                            placeholder="例：在庫管理を手書き帳簿で行っており、記録ミスが頻発。棚卸作業に毎月2日間を要し、本来の営業活動に支障が出ている。"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="problem-impact">課題による具体的な影響（数値があれば）</label>
-                        <textarea id="problem-impact" rows="3"
-                            placeholder="例：月間約10件の在庫切れによる販売機会損失（推定15万円/月）、棚卸作業に月16時間のロス"></textarea>
-                    </div>
-                </div>
-
-                <!-- STEP 3: 投資計画 -->
-                <div class="form-section">
-                    <h3>3. 投資計画</h3>
-                    <div class="form-group">
-                        <label for="investment-content">導入予定の設備・システム <span class="required">*</span></label>
-                        <textarea id="investment-content" rows="3"
-                            placeholder="例：クラウド型POSレジシステム（タブレット端末2台、バーコードリーダー、レシートプリンター含む）"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="investment-amount">投資予定額（万円）</label>
-                            <input type="number" id="investment-amount" placeholder="例：80" min="0">
-                        </div>
-                        <div class="form-group">
-                            <label for="investment-timing">導入予定時期</label>
-                            <input type="text" id="investment-timing" placeholder="例：2024年6月">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- STEP 4: 期待効果 -->
-                <div class="form-section">
-                    <h3>4. 期待される効果</h3>
-                    <div class="form-group">
-                        <label for="expected-effect">導入による期待効果 <span class="required">*</span></label>
-                        <textarea id="expected-effect" rows="4"
-                            placeholder="例：リアルタイム在庫管理により在庫切れを防止し、販売機会損失を解消。棚卸作業時間を月2時間に短縮。顧客購買データの蓄積・分析によるマーケティング精度向上。"></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="sales-increase">売上向上見込（%）</label>
-                            <input type="number" id="sales-increase" placeholder="例：10" min="0" max="100">
-                        </div>
-                        <div class="form-group">
-                            <label for="cost-reduction">コスト削減見込（%）</label>
-                            <input type="number" id="cost-reduction" placeholder="例：20" min="0" max="100">
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary btn-lg w-full" onclick="generateDraft()" id="generate-btn">
-                    事業計画書ドラフトを生成
-                </button>
             </div>
         </section>
 
@@ -294,8 +329,11 @@
                     <h2>事業計画書ドラフト</h2>
                     <p id="draft-subsidy-name">対象制度名</p>
                 </div>
-                <div class="draft-content" id="draft-content">
-                    <!-- 動的に生成 -->
+                <div class="draft-content-wrapper">
+                    <!-- 全文プレビュー -->
+                    <div class="draft-content" id="draft-content"></div>
+
+
                 </div>
                 <div class="draft-actions">
                     <button class="btn btn-secondary" onclick="showScreen('apply')">← 入力内容を修正</button>
@@ -331,8 +369,12 @@
                             <div class="step-icon">🚀</div>
                             <h4>4. 電子申請</h4>
                             <p>jGrants（Jグランツ）から本申請を行います</p>
-                            <a href="https://www.jgrants-portal.go.jp/" target="_blank"
+                            <a href="https://www.jgrants-portal.go.jp/" target="_blank" id="official-apply-link"
                                 class="btn btn-outline">jGrantsへ移動</a>
+                            <div style="text-align: center; margin-top: 8px;">
+                                <button class="btn-text" onclick="editApplicationUrl()"
+                                    style="font-size: 0.8rem; color: var(--text-secondary);">※ 申請先リンクを変更</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -357,7 +399,11 @@
                         <span class="dash-stat-label">採択</span>
                     </div>
                 </div>
-                <h3>申請案件一覧</h3>
+                <div class="list-header"
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h3 style="margin: 0;">申請案件一覧</h3>
+                    <button class="btn btn-primary btn-sm" onclick="openImportModal()">＋ 履歴を追加</button>
+                </div>
                 <div class="application-list" id="application-list">
                     <p class="empty-message">登録済みの申請案件はありません</p>
                 </div>
@@ -378,48 +424,169 @@
             <div class="modal-content">
                 <h2>アカウント設定</h2>
                 <p class="modal-desc">案件管理・履歴保存にはアカウント情報が必要です</p>
+
+                <button class="btn btn-lg w-full btn-google" onclick="loginWithGoogle()">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                        class="google-icon" alt="G">
+                    Googleでログイン
+                </button>
+
+                <div class="auth-separator">または</div>
+
                 <div class="form-group">
-                    <label for="login-email">メールアドレス</label>
-                    <input type="email" id="login-email" placeholder="例：sample@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="login-name">事業者名</label>
-                    <input type="text" id="login-name" placeholder="例：サンプル商店">
+                    <label for="login-name">事業者名・店舗名 <span class="required">*</span></label>
+                    <input type="text" id="login-name" class="form-input" placeholder="例: 株式会社サンプル">
                 </div>
                 <div class="modal-actions">
                     <button class="btn btn-secondary" onclick="closeLoginModal()">キャンセル</button>
-                    <button class="btn btn-primary" onclick="loginOrRegister()">登録 / ログイン</button>
+                    <button class="btn btn-primary" onclick="loginOrRegister()">開始する</button>
                 </div>
             </div>
         </div>
 
         <!-- 添付書類チェックリストモーダル -->
         <div class="modal-overlay" id="checklist-modal">
-            <div class="modal-content">
-                <h2>必要書類チェックリスト</h2>
-                <p class="modal-desc">申請に必要な主な書類です。制度により異なりますので、必ず公募要領をご確認ください。</p>
-                <div class="checklist-container">
-                    <label class="checklist-item">
-                        <input type="checkbox"> 履歴事項全部証明書（発行から3ヶ月以内）
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> 直近の決算書（貸借対照表・損益計算書）
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> 労働者名簿（従業員数の確認用）
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> 納税証明書
-                    </label>
-                    <label class="checklist-item">
-                        <input type="checkbox"> 見積書（導入予定の設備等）
-                    </label>
+            <div class="modal-content" style="max-width: 600px;">
+                <h2>📋 申請準備チェックリスト</h2>
+                <p class="modal-desc" id="checklist-subsidy-name">対象制度の申請に必要な準備事項です</p>
+
+                <div class="checklist-container" id="checklist-items">
+                    <!-- 動的に生成 -->
                 </div>
+
+                <div class="checklist-progress">
+                    <div class="progress-text">進捗: <span id="checklist-progress-count">0</span>/<span
+                            id="checklist-total-count">0</span></div>
+                    <div class="progress-bar-mini">
+                        <div class="progress-fill-mini" id="checklist-progress-bar"></div>
+                    </div>
+                </div>
+
                 <div class="modal-actions">
-                    <button class="btn btn-primary" onclick="closeChecklistModal()">閉じる</button>
+                    <button class="btn btn-secondary" onclick="closeChecklistModal()">閉じる</button>
+                    <a id="checklist-official-link" href="#" target="_blank" class="btn btn-primary">公募要領を確認</a>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+
+    <!-- インポートモーダル -->
+    <div class="modal-overlay" id="import-modal">
+        <div class="modal-content">
+            <h2>過去の申請履歴を追加</h2>
+            <p class="modal-desc">アプリ外で行った申請履歴を登録できます</p>
+            <div class="form-group">
+                <label>補助金・制度名 <span class="required">*</span></label>
+                <input type="text" id="import-name" class="form-input" placeholder="例: 小規模事業者持続化補助金">
+            </div>
+            <div class="form-group">
+                <label>申請日（作成日）</label>
+                <input type="date" id="import-date" class="form-input">
+            </div>
+            <div class="form-group">
+                <label>現在のステータス</label>
+                <div style="display: flex; gap: 16px; margin-top: 8px;">
+                    <label style="display: flex; align-items: center; gap: 4px;">
+                        <input type="radio" name="import-status" value="申請中" checked> 申請中
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px;">
+                        <input type="radio" name="import-status" value="採択"> 採択
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 4px;">
+                        <input type="radio" name="import-status" value="不採択"> 不採択
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeImportModal()">キャンセル</button>
+                <button class="btn btn-primary" onclick="importApplication()">追加する</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- 料金プランページ -->
+    <section id="screen-pricing" class="screen">
+        <div class="pricing-container">
+            <div class="pricing-header">
+                <h2>料金プラン</h2>
+                <p>あなたのビジネスに最適なプランを選択してください</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-badge">無料</div>
+                    <h3 class="pricing-plan-name">フリープラン</h3>
+                    <div class="pricing-price">
+                        <span class="price-amount">¥0</span>
+                        <span class="price-period">/月</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✅ 適合性診断（無制限）</li>
+                        <li>✅ AI計画書生成（月1回）</li>
+                        <li>✅ 申請準備チェックリスト</li>
+                        <li>❌ 優先サポート</li>
+                        <li>❌ 添削・ブラッシュアップ</li>
+                    </ul>
+                    <button class="btn btn-outline btn-lg w-full" onclick="selectPlan('free')">
+                        現在のプラン
+                    </button>
+                </div>
+
+                <div class="pricing-card premium">
+                    <div class="pricing-badge premium-badge">おすすめ</div>
+                    <h3 class="pricing-plan-name">プレミアムプラン</h3>
+                    <div class="pricing-price">
+                        <span class="price-amount">¥2,980</span>
+                        <span class="price-period">/月</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✅ 適合性診断（無制限）</li>
+                        <li>✅ AI計画書生成（無制限）</li>
+                        <li>✅ 申請準備チェックリスト</li>
+                        <li>✅ 優先サポート</li>
+                        <li>✅ 添削・ブラッシュアップ</li>
+                    </ul>
+                    <button class="btn btn-primary btn-lg w-full" onclick="selectPlan('premium')">
+                        アップグレード
+                    </button>
+                </div>
+            </div>
+
+            <div class="pricing-faq">
+                <h3>よくある質問</h3>
+                <div class="faq-item">
+                    <strong>Q: いつでも解約できますか？</strong>
+                    <p>A: はい、いつでも解約可能です。解約後も当月末まではご利用いただけます。</p>
+                </div>
+                <div class="faq-item">
+                    <strong>Q: 支払い方法は？</strong>
+                    <p>A: クレジットカード（Visa, Mastercard, JCB, AMEX）に対応しています。</p>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <h3>📧 お問い合わせ</h3>
+                <p>ご質問やご要望がございましたら、お気軽にお問い合わせください。</p>
+                <div class="form-group">
+                    <label>お名前・会社名</label>
+                    <input type="text" id="contact-name" placeholder="例: 山田太郎 / 株式会社サンプル">
+                </div>
+                <div class="form-group">
+                    <label>メールアドレス</label>
+                    <input type="email" id="contact-email" placeholder="例: sample@example.com">
+                </div>
+                <div class="form-group">
+                    <label>お問い合わせ内容</label>
+                    <textarea id="contact-message" rows="4" placeholder="ご質問・ご要望をご記入ください"></textarea>
+                </div>
+                <button class="btn btn-primary btn-lg" onclick="submitContact()">送信する</button>
+            </div>
+        </div>
+    </section>
+
     </div>
 
     <script src="/static/app.js"></script>

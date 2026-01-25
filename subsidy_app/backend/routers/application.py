@@ -12,7 +12,8 @@ from schemas import (
     DraftGenerateRequest, 
     DraftGenerateResponse,
     ApplicationStatusUpdate,
-    ManualApplicationCreate
+    ManualApplicationCreate,
+    RefineRequest
 )
 from services.ai_service import ai_service
 from datetime import datetime
@@ -70,6 +71,48 @@ def create_manual_application(request: ManualApplicationCreate, db: Session = De
         plan_details=application.plan_details,
         created_at=application.created_at,
         official_url=dummy_subsidy.official_url
+    )
+
+
+@router.post("/refine", response_model=DraftGenerateResponse)
+def refine_draft(request: RefineRequest, db: Session = Depends(get_db)):
+    """
+    既存の事業計画書をAI添削
+    """
+    # ユーザー情報取得
+    user = db.query(UserProfile).filter(UserProfile.user_id == request.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="ユーザーが見つかりません")
+    
+    # 補助金情報取得
+    subsidy = db.query(SubsidyMaster).filter(SubsidyMaster.id == request.subsidy_id).first()
+    if not subsidy:
+        raise HTTPException(status_code=404, detail="補助金が見つかりません")
+    
+    # AIで添削
+    refined_text = ai_service.refine_business_plan(
+        subsidy_name=subsidy.name,
+        current_text=request.current_text,
+        focus_point=request.focus_point
+    )
+    
+    # 申請履歴を保存
+    application = ApplicationHistory(
+        user_id=request.user_id,
+        subsidy_id=request.subsidy_id,
+        status="下書き",
+        ai_draft_text=refined_text,
+        plan_details=f"【AI添削依頼】\n{request.current_text[:200]}..." # 元テキストの一部を保存
+    )
+    db.add(application)
+    db.commit()
+    db.refresh(application)
+    
+    return DraftGenerateResponse(
+        draft_id=application.id,
+        draft_text=refined_text,
+        subsidy_name=subsidy.name,
+        official_url=subsidy.official_url
     )
 
 

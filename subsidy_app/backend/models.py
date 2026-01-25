@@ -29,11 +29,21 @@ class UserProfile(Base):
 
     user_id = Column(Integer, primary_key=True, index=True)
     business_name = Column(String(255), comment="店舗・会社名")
+    email = Column(String(255), nullable=True, comment="メールアドレス")
+    google_id = Column(String(255), nullable=True, comment="Google OAuth ID")
     industry = Column(String(100), comment="業種")
     region = Column(String(100), comment="所在地")
     employee_count = Column(Integer, comment="従業員数")
     annual_sales = Column(Integer, nullable=True, comment="年間売上")
     investment_plan = Column(Text, nullable=True, comment="投資予定")
+    
+    # Subscription fields
+    plan = Column(String(50), default="free", comment="プラン: free / premium")
+    stripe_customer_id = Column(String(255), nullable=True, comment="Stripe顧客ID")
+    stripe_subscription_id = Column(String(255), nullable=True, comment="StripeサブスクリプションID")
+    monthly_draft_count = Column(Integer, default=0, comment="今月のドラフト生成回数")
+    draft_reset_date = Column(Date, nullable=True, comment="ドラフトカウントリセット日")
+    
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
 

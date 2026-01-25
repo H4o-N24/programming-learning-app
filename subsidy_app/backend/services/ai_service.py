@@ -179,5 +179,73 @@ class AIService:
 """
 
 
+    
+    def refine_business_plan(
+        self,
+        subsidy_name: str,
+        current_text: str,
+        focus_point: str = None
+    ) -> str:
+        """
+        既存の事業計画書を添削・ブラッシュアップ
+        """
+        prompt = f"""あなたは補助金申請の審査員経験もあるプロのコンサルタントです。
+以下の事業計画書ドラフトを、{subsidy_name}の採択率を高めるために添削・リライトしてください。
+
+【添削のポイント】
+1. 審査員に伝わりやすい、論理的で説得力のある文章にする
+2. 具体的な数値や客観的な根拠を補完するような表現にする（数値が不明な場合は[数値]としてプレースホルダーにする）
+3. 「～と思います」などの曖昧な表現を避け、言い切りの形にする
+{f'4. 特に注力してほしい点: {focus_point}' if focus_point else ''}
+
+【元のテキスト】
+{current_text}
+
+【出力形式】
+修正後の事業計画書のみを出力してください。Markdown形式で見出しをつけてください。
+"""
+
+        if self.client:
+            try:
+                response = self.client.chat.completions.create(
+                    model="gpt-4o-mini",
+                    messages=[
+                        {"role": "system", "content": "あなたは優秀な中小企業診断士です。ユーザーの事業計画書をブラッシュアップしてください。"},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.7,
+                    max_tokens=2500
+                )
+                return response.choices[0].message.content
+            except Exception as e:
+                return self._generate_mock_refinement(subsidy_name, current_text)
+        else:
+            return self._generate_mock_refinement(subsidy_name, current_text)
+
+    def _generate_mock_refinement(self, subsidy_name: str, current_text: str) -> str:
+        """モック用の添削生成"""
+        return f"""# 【添削済】事業計画書 ({subsidy_name})
+
+> プロによるブラッシュアップを行いました。より説得力のある構成になっています。
+
+## 1. 事業概要（ブラッシュアップ）
+
+{current_text[:100]}...
+
+（中略：AIが論理構成を整理し、より具体的な表現に書き換えました）
+
+## 2. 実施体制とスケジュール
+
+...
+
+## 3. 期待される成果
+
+- 売上高: 導入後3年で150%成長を見込む
+- 生産性: 業務時間を月20時間削減
+
+---
+※ これはモック添削です。APIキーを設定すると、実際の文章を解析してリライトします。
+"""
+
 # シングルトンインスタンス
 ai_service = AIService()
