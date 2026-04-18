@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ピクセルライフ アニメーションプレビュー</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DotGothic16', sans-serif;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #87CEEB, #DDA0DD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 32px;
+            font-size: 14px;
+        }
+
+        .animation-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .widget-preview {
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F7FA 100%);
+            border-radius: 24px;
+            padding: 20px;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-frame {
+            width: 200px;
+            height: 200px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .status-icon {
+            font-size: 16px;
+        }
+
+        .frame-strip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .frames-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .frame-thumb {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .frame-thumb.active {
+            border-color: #87CEEB;
+            box-shadow: 0 0 16px rgba(135, 206, 235, 0.5);
+            transform: scale(1.05);
+        }
+
+        .frame-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            image-rendering: pixelated;
+        }
+
+        .frame-label {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            align-items: center;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'DotGothic16', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        button.active {
+            background: rgba(135, 206, 235, 0.3);
+            border-color: #87CEEB;
+        }
+
+        .speed-label {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🐱 ピクセルライフ</h1>
+    <p class="subtitle">動物キャラクター アニメーションプレビュー — 三毛猫（子猫）</p>
+    <div class="animation-container">
+        <div class="widget-preview">
+            <img id="animImage" class="character-frame" src="" alt="calico_kitten">
+            <div class="status-bar">
+                <span class="status-icon">🔋</span>
+                <span class="status-icon">☀️</span>
+                <span class="status-icon">🏠</span>
+            </div>
+        </div>
+        <div class="frame-strip">
+            <div class="frames-row">
+                <div class="frame-thumb active" data-frame="0" onclick="goToFrame(0)">
+                    <img src="" alt="Frame 0" id="thumb0">
+                    <div class="frame-label">🐱 おすわり</div>
+                </div>
+                <div class="frame-thumb" data-frame="1" onclick="goToFrame(1)">
+                    <img src="" alt="Frame 1" id="thumb1">
+                    <div class="frame-label">😺 きょろきょろ</div>
+                </div>
+            </div>
+            <div class="frames-row">
+                <div class="frame-thumb" data-frame="2" onclick="goToFrame(2)">
+                    <img src="" alt="Frame 2" id="thumb2">
+                    <div class="frame-label">🙀 ばんざい</div>
+                </div>
+                <div class="frame-thumb" data-frame="3" onclick="goToFrame(3)">
+                    <img src="" alt="Frame 3" id="thumb3">
+                    <div class="frame-label">😴 おやすみ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="playBtn" class="active" onclick="togglePlay()">⏸ 一時停止</button>
+        <span class="speed-label">速度:</span>
+        <button onclick="setSpeed(800)" id="speed1">ゆっくり</button>
+        <button onclick="setSpeed(500)" id="speed2" class="active">普通</button>
+        <button onclick="setSpeed(250)" id="speed3">はやい</button>
+    </div>
+    <p class="info-text">
+        4フレーム × 0.5秒間隔 = 2秒のアニメーションサイクル<br>
+        成長システム: 子猫 → 若猫 → 成猫 → 長老猫（使用日数で進化）
+    </p>
+    <script>
+        const frames = [
+            '/home/hyou/.gemini/antigravity/brain/2e8c3c10-b45b-42f6-b35f-6b2ff0c246c8/cat_frame0_1771149858222.png',
+            '/home/hyou/.gemini/antigravity/brain/2e8c3c10-b45b-42f6-b35f-6b2ff0c246c8/cat_frame1_1771149872965.png',
+            '/home/hyou/.gemini/antigravity/brain/2e8c3c10-b45b-42f6-b35f-6b2ff0c246c8/cat_frame2_1771149888353.png',
+            '/home/hyou/.gemini/antigravity/brain/2e8c3c10-b45b-42f6-b35f-6b2ff0c246c8/cat_frame3_1771149903901.png'
+        ];
+        let currentFrame = 0, isPlaying = true, speed = 500, intervalId;
+        const animImage = document.getElementById('animImage');
+        for (let i = 0; i < 4; i++) document.getElementById('thumb' + i).src = frames[i];
+        animImage.src = frames[0];
+        function updateFrame() {
+            animImage.src = frames[currentFrame];
+            document.querySelectorAll('.frame-thumb').forEach((el, idx) => el.classList.toggle('active', idx === currentFrame));
+        }
+        function nextFrame() { currentFrame = (currentFrame + 1) % frames.length; updateFrame(); }
+        function goToFrame(idx) { currentFrame = idx; updateFrame(); }
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('playBtn');
+            btn.textContent = isPlaying ? '⏸ 一時停止' : '▶ 再生';
+            btn.classList.toggle('active', isPlaying);
+            isPlaying ? startAnimation() : clearInterval(intervalId);
+        }
+        function setSpeed(ms) {
+            speed = ms;
+            document.querySelectorAll('[id^="speed"]').forEach(b => b.classList.remove('active'));
+            document.getElementById('speed' + (ms === 800 ? 1 : ms === 500 ? 2 : 3)).classList.add('active');
+            if (isPlaying) startAnimation();
+        }
+        function startAnimation() { clearInterval(intervalId); intervalId = setInterval(nextFrame, speed); }
+        startAnimation();
+    </script>
+</body>
+
+</html>

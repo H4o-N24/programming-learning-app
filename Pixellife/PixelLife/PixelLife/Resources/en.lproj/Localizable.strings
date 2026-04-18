@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings (English)
+  Pixel Life
+
+  English localization
+*/
+
+// Tabs
+"tab.home" = "Home";
+"tab.character" = "Character";
+"tab.ai" = "AI Gen";
+"tab.plan" = "Plans";
+"tab.settings" = "Settings";
+
+// Home
+"home.title" = "Pixel Life";
+"home.status.battery" = "Battery";
+"home.status.weather" = "Weather";
+"home.status.schedule" = "Schedule";
+"home.today_schedule" = "Today's Schedule";
+"home.widget_preview" = "Widget Preview";
+
+// Battery
+"battery.max" = "Supercharged";
+"battery.high" = "Energetic";
+"battery.medium" = "Normal";
+"battery.low" = "Tired";
+"battery.charging" = "Charging";
+
+// Weather
+"weather.sunny" = "Sunny";
+"weather.cloudy" = "Cloudy";
+"weather.rainy" = "Rainy";
+"weather.snowy" = "Snowy";
+"weather.warning" = "Alert";
+
+// Schedule
+"schedule.none" = "Free";
+"schedule.work" = "Work";
+"schedule.private" = "Personal";
+"schedule.travel" = "Travel";
+
+// Character
+"character.title" = "Choose Character";
+"character.selected" = "Selected";
+"character.premium" = "Premium Only";
+"character.select" = "Select";
+
+// Subscription
+"subscription.title" = "Choose a Plan";
+"subscription.basic" = "Basic";
+"subscription.premium" = "Premium";
+"subscription.ai_pro" = "AI Pro";
+"subscription.free" = "Free";
+"subscription.per_month" = "/month";
+"subscription.current_plan" = "Current Plan";
+"subscription.subscribe" = "Subscribe";
+"subscription.restore" = "Restore Purchases";
+"subscription.cancel_info" = "Subscriptions auto-renew unless canceled at least 24 hours before the end of the current period.\nManage: Settings → Apple ID → Subscriptions";
+
+// AI Generation
+"ai.title" = "AI Image Generation";
+"ai.remaining_credits" = "Credits Remaining";
+"ai.prompt_placeholder" = "What character would you like to create?";
+"ai.style" = "Style";
+"ai.generate" = "Generate";
+"ai.generating" = "Generating...";
+"ai.apply_to_widget" = "Apply to Widget";
+
+// Settings
+"settings.title" = "Settings";
+"settings.widget" = "Widget Settings";
+"settings.update_interval" = "Update Interval";
+"settings.animation" = "Animation";
+"settings.theme" = "Theme";
+"settings.data" = "Data Integration";
+"settings.calendar_access" = "Calendar Sync";
+"settings.location_access" = "Location (Weather)";
+"settings.account" = "Account";
+"settings.manage_subscription" = "Manage Subscription";
+"settings.support" = "Support";
+"settings.privacy_policy" = "Privacy Policy";
+"settings.terms_of_use" = "Terms of Use";
+"settings.contact" = "Contact Us";
+"settings.version" = "Version";
+
+// Common
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.error" = "Error";
+"common.loading" = "Loading...";
+"common.save" = "Save";

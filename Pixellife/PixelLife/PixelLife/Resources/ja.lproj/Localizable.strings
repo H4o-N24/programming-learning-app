@@ -1,0 +1,92 @@
+/* 
+  Localizable.strings (Japanese)
+  ピクセルライフ
+
+  日本語ローカライズファイル
+*/
+
+// タブ
+"tab.home" = "ホーム";
+"tab.character" = "キャラ";
+"tab.ai" = "AI生成";
+"tab.plan" = "プラン";
+"tab.settings" = "設定";
+
+// ホーム画面
+"home.title" = "ピクセルライフ";
+"home.status.battery" = "バッテリー";
+"home.status.weather" = "天気";
+"home.status.schedule" = "予定";
+"home.today_schedule" = "今日の予定";
+"home.widget_preview" = "ウィジェットプレビュー";
+
+// バッテリー状態
+"battery.max" = "絶好調";
+"battery.high" = "元気";
+"battery.medium" = "普通";
+"battery.low" = "疲労";
+"battery.charging" = "充電中";
+
+// 天気状態
+"weather.sunny" = "晴れ";
+"weather.cloudy" = "曇り";
+"weather.rainy" = "雨";
+"weather.snowy" = "雪";
+"weather.warning" = "警報";
+
+// 予定状態
+"schedule.none" = "フリー";
+"schedule.work" = "仕事";
+"schedule.private" = "プライベート";
+"schedule.travel" = "おでかけ";
+
+// キャラクター選択
+"character.title" = "キャラクター選択";
+"character.selected" = "選択中";
+"character.premium" = "プレミアム限定";
+"character.select" = "選択する";
+
+// サブスクリプション
+"subscription.title" = "プランを選択";
+"subscription.basic" = "ベーシック";
+"subscription.premium" = "プレミアム";
+"subscription.ai_pro" = "AIプロ";
+"subscription.free" = "無料";
+"subscription.per_month" = "/月";
+"subscription.current_plan" = "現在のプラン";
+"subscription.subscribe" = "登録する";
+"subscription.restore" = "購入を復元";
+"subscription.cancel_info" = "サブスクリプションは期間終了の24時間前までにキャンセルしない限り自動更新されます。\n管理: 設定 → Apple ID → サブスクリプション";
+
+// AI生成
+"ai.title" = "AI画像生成";
+"ai.remaining_credits" = "残りクレジット";
+"ai.prompt_placeholder" = "どんなキャラクターを作りたいですか？";
+"ai.style" = "スタイル";
+"ai.generate" = "生成する";
+"ai.generating" = "生成中...";
+"ai.apply_to_widget" = "ウィジェットに適用";
+
+// 設定
+"settings.title" = "設定";
+"settings.widget" = "ウィジェット設定";
+"settings.update_interval" = "更新間隔";
+"settings.animation" = "アニメーション";
+"settings.theme" = "テーマ";
+"settings.data" = "データ連携";
+"settings.calendar_access" = "カレンダー連動";
+"settings.location_access" = "位置情報（天気用）";
+"settings.account" = "アカウント";
+"settings.manage_subscription" = "サブスクリプション管理";
+"settings.support" = "サポート";
+"settings.privacy_policy" = "プライバシーポリシー";
+"settings.terms_of_use" = "利用規約";
+"settings.contact" = "お問い合わせ";
+"settings.version" = "バージョン";
+
+// 共通
+"common.ok" = "OK";
+"common.cancel" = "キャンセル";
+"common.error" = "エラー";
+"common.loading" = "読み込み中...";
+"common.save" = "保存";

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeFlow - プログラミング学習フローチャート</title>
+  <meta name="description" content="フローチャートで学ぶプログラミング入門。入力・条件分岐・繰り返し・変数・関数を5ステップで習得できるインタラクティブ教材。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- パーティクル背景 -->
+  <div class="bg-particles" aria-hidden="true">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <div class="app-layout">
+    <!-- サイドバー -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">⬡</span>
+          <span class="logo-text">CodeFlow</span>
+        </div>
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>進捗</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="step-nav" role="navigation" aria-label="学習ステップ">
+        <ul id="stepList">
+          <!-- JSで生成 -->
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="score-card">
+          <div class="score-icon">🏆</div>
+          <div class="score-info">
+            <span class="score-label">スコア</span>
+            <span class="score-value" id="totalScore">0</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content" id="mainContent">
+      <!-- ヘッダー -->
+      <header class="content-header">
+        <button class="menu-btn" id="menuBtn" aria-label="メニュー">
+          <span></span><span></span><span></span>
+        </button>
+        <div class="step-badge" id="stepBadge">STEP 1</div>
+        <div class="concept-tag" id="conceptTag">入力と出力</div>
+      </header>
+
+      <!-- コンテンツエリア -->
+      <div class="content-area" id="contentArea">
+        <!-- JSで各STEPのコンテンツをレンダリング -->
+      </div>
+
+      <!-- ナビゲーションボタン -->
+      <footer class="nav-footer">
+        <button class="btn btn-secondary" id="prevBtn" onclick="navigate(-1)">
+          <span class="btn-icon">←</span>前のステップ
+        </button>
+        <div class="step-dots" id="stepDots"></div>
+        <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">
+          次のステップ<span class="btn-icon">→</span>
+        </button>
+      </footer>
+    </main>
+  </div>
+
+  <!-- モーダル（クイズ結果） -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal">
+      <div class="modal-icon" id="modalIcon"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-msg" id="modalMsg"></p>
+      <button class="btn btn-primary" id="modalBtn">続ける</button>
+    </div>
+  </div>
+
+  <!-- 完了画面 -->
+  <div class="complete-overlay" id="completeOverlay" style="display:none">
+    <div class="complete-card">
+      <div class="fireworks" aria-hidden="true">
+        <span>🎉</span><span>⭐</span><span>🎊</span><span>✨</span><span>🌟</span>
+      </div>
+      <h1>学習完了！</h1>
+      <p>全5ステップのプログラミング基礎を制覇しました！</p>
+      <div class="final-score">
+        <span class="fs-label">最終スコア</span>
+        <span class="fs-value" id="finalScore">0</span>
+        <span class="fs-max" id="finalMax">/ 45</span>
+      </div>
+      <button class="btn btn-primary" onclick="restartAll()">もう一度挑戦</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
