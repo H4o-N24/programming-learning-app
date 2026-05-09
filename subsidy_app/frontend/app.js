@@ -879,7 +879,7 @@ function completeLogin(userData) {
     if (state.currentScreen === 'dashboard') {
         loadDashboard();
     } else {
-        showToast('ようこそ、' + userData.name + '様', 'success');
+        showToast('ようこそ、' + (userData.business_name || userData.name) + '様', 'success');
     }
     showLoading(false);
 }
@@ -900,8 +900,8 @@ function updateAuthUI() {
     if (state.currentUser) {
         navAuth.innerHTML = `
             <div class="user-profile" onclick="showScreen('dashboard')">
-                <div class="user-avatar">${state.currentUser.name.charAt(0)}</div>
-                <span>${state.currentUser.name}</span>
+                <div class="user-avatar">${(state.currentUser.business_name || state.currentUser.name || '?').charAt(0)}</div>
+                <span>${state.currentUser.business_name || state.currentUser.name || 'ユーザー'}</span>
             </div>
             <button class="btn btn-outline btn-sm" onclick="logout()" style="margin-left: 8px;">ログアウト</button>
         `;
@@ -1268,3 +1268,125 @@ async function checkDraftLimit() {
         return true; // Allow on error
     }
 }
+
+// ==================== AI Chat Widget ====================
+let chatHistory = [];
+
+function toggleChatPanel() {
+    const panel = document.getElementById('chat-panel');
+    const overlay = document.getElementById('chat-overlay');
+    panel.classList.toggle('active');
+    overlay.classList.toggle('active');
+
+    if (panel.classList.contains('active')) {
+        document.getElementById('chat-input').focus();
+    }
+}
+
+function handleChatKeypress(event) {
+    if (event.key === 'Enter') {
+        sendChatMessage();
+    }
+}
+
+async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const message = input.value.trim();
+
+    if (!message) return;
+
+    // ユーザーメッセージを追加
+    addChatMessage('user', message);
+    chatHistory.push({ role: 'user', content: message });
+    input.value = '';
+
+    // タイピングインジケーターを表示
+    showTypingIndicator();
+
+    try {
+        const response = await fetch(`${API_BASE}/api/v1/chat/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                messages: chatHistory,
+                user_id: state.currentUser?.user_id
+            })
+        });
+
+        const data = await response.json();
+
+        // タイピングインジケーターを削除
+        removeTypingIndicator();
+
+        // AI応答を追加
+        addChatMessage('assistant', data.response);
+        chatHistory.push({ role: 'assistant', content: data.response });
+
+    } catch (error) {
+        console.error('Chat error:', error);
+        removeTypingIndicator();
+        addChatMessage('assistant', 'すみません、エラーが発生しました。もう一度お試しください。');
+    }
+}
+
+function addChatMessage(role, content) {
+    // スクリーン用クラスを参照
+    const messagesContainer = document.querySelector('.chat-messages-screen');
+    if (!messagesContainer) return;
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${role}`;
+    messageDiv.innerHTML = `<div class="message-content">${formatChatMessage(content)}</div>`;
+    messagesContainer.appendChild(messageDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function formatChatMessage(content) {
+    // 簡易的なマークダウン変換
+    return content
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+}
+
+function showTypingIndicator() {
+    const messagesContainer = document.querySelector('.chat-messages-screen');
+    if (!messagesContainer) return;
+
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typing-indicator';
+    typingDiv.className = 'chat-message assistant chat-typing';
+    typingDiv.innerHTML = '<span></span><span></span><span></span>';
+    messagesContainer.appendChild(typingDiv);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
+}
+
+function sendQuickQuestion(question) {
+    // クイック質問ボタンを非表示
+    const quickQ = document.querySelector('.quick-questions');
+    if (quickQ) quickQ.style.display = 'none';
+
+    // 入力欄に質問をセットして送信
+    document.getElementById('chat-input').value = question;
+    sendChatMessage();
+}
+
+function toggleFaq(element) {
+    // 他の開いているアイテムを閉じる（オプション）
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+        if (item !== element) {
+            item.classList.remove('active');
+        }
+    });
+
+    // クリックされたアイテムの開閉を切り替え
+    element.classList.toggle('active');
+}
+
+
+

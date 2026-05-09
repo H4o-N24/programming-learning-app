@@ -25,9 +25,13 @@
                 <button class="nav-item active" data-screen="home" onclick="showScreen('home')">ホーム</button>
                 <button class="nav-item" data-screen="pricing" onclick="showScreen('pricing')">料金</button>
                 <button class="nav-item" data-screen="dashboard" onclick="showScreen('dashboard')">マイページ</button>
+                <button class="nav-item" data-screen="chat" onclick="showScreen('chat')">AIチャット</button>
+                <button class="nav-item" onclick="showScreen('contact')" data-screen="contact">お問い合わせ</button>
             </div>
-            <div id="nav-auth" class="nav-auth">
-                <button class="btn btn-primary btn-sm btn-login-nav" onclick="showLoginModal()">ログイン</button>
+            <div class="nav-actions">
+                <div id="nav-auth" class="nav-auth">
+                    <button class="btn btn-primary btn-sm btn-login-nav" onclick="showLoginModal()">ログイン</button>
+                </div>
             </div>
         </nav>
 
@@ -80,6 +84,9 @@
                     </div>
                 </div>
             </div>
+
+            <!-- お問い合わせセクション -->
+
         </section>
 
         <!-- 3ステップ診断画面 -->
@@ -345,36 +352,25 @@
 
                 <!-- ネクストステップ -->
                 <div class="next-steps">
-                    <h3>NEXT STEPS</h3>
+                    <h3>次のステップ</h3>
                     <div class="steps-grid">
                         <div class="step-card">
-                            <div class="step-icon">📥</div>
-                            <h4>1. ダウンロード</h4>
-                            <p>テキスト形式でダウンロードし、Word等で推敲・仕上げを行います</p>
-                            <button class="btn btn-outline" onclick="downloadDraft()">ダウンロード</button>
+                            <div class="step-icon">✏️</div>
+                            <h4>1. 計画書を完成させる</h4>
+                            <p>ドラフトをダウンロードし、具体的な数値や詳細を追記して仕上げます</p>
+                            <button class="btn btn-primary" onclick="downloadDraft()">ダウンロード</button>
                         </div>
                         <div class="step-card">
-                            <div class="step-icon">📄</div>
-                            <h4>2. 添付書類準備</h4>
-                            <p>決算書、履歴事項全部証明書など、申請に必要な書類を準備します</p>
-                            <button class="text-link btn-link" onclick="showChecklistModal()">必要書類チェックリスト</button>
-                        </div>
-                        <div class="step-card">
-                            <div class="step-icon">👨‍💼</div>
-                            <h4>3. 専門家レビュー</h4>
-                            <p>行政書士や認定支援機関による最終確認を受けると採択率が高まります</p>
-                            <button class="btn btn-outline" onclick="showExpertModal()">専門家を探す</button>
+                            <div class="step-icon">📋</div>
+                            <h4>2. 必要書類を準備</h4>
+                            <p>申請に必要な添付書類を準備します</p>
+                            <button class="btn btn-outline" onclick="showChecklistModal()">チェックリストを開く</button>
                         </div>
                         <div class="step-card">
                             <div class="step-icon">🚀</div>
-                            <h4>4. 電子申請</h4>
-                            <p>jGrants（Jグランツ）から本申請を行います</p>
-                            <a href="https://www.jgrants-portal.go.jp/" target="_blank" id="official-apply-link"
-                                class="btn btn-outline">jGrantsへ移動</a>
-                            <div style="text-align: center; margin-top: 8px;">
-                                <button class="btn-text" onclick="editApplicationUrl()"
-                                    style="font-size: 0.8rem; color: var(--text-secondary);">※ 申請先リンクを変更</button>
-                            </div>
+                            <h4>3. 公式サイトで申請</h4>
+                            <p>制度の公式ページから申請手続きを行います</p>
+                            <a href="#" id="official-apply-link" target="_blank" class="btn btn-success">公式申請ページへ</a>
                         </div>
                     </div>
                 </div>
@@ -406,6 +402,103 @@
                 </div>
                 <div class="application-list" id="application-list">
                     <p class="empty-message">登録済みの申請案件はありません</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- お問い合わせ画面 -->
+        <section id="screen-contact" class="screen">
+            <div class="contact-layout">
+                <div class="contact-container">
+                    <div class="section-header">
+                        <h2>お問い合わせ</h2>
+                        <p>ご不明な点やご相談がございましたら、お気軽にお問い合わせください</p>
+                    </div>
+
+                    <!-- よくある質問 -->
+                    <div class="faq-section">
+                        <h3>よくある質問</h3>
+                        <div class="faq-grid">
+                            <div class="faq-item" onclick="toggleFaq(this)">
+                                <div class="faq-question">
+                                    <strong>Q: いつでも解約できますか？</strong>
+                                    <span class="faq-icon">+</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>A: はい、いつでも解約可能です。解約後も当月末まではご利用いただけます。</p>
+                                </div>
+                            </div>
+                            <div class="faq-item" onclick="toggleFaq(this)">
+                                <div class="faq-question">
+                                    <strong>Q: 支払い方法は？</strong>
+                                    <span class="faq-icon">+</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>A: クレジットカード（Visa, Mastercard, JCB, AMEX）に対応しています。また、法人契約の場合は請求書払いも可能です。</p>
+                                </div>
+                            </div>
+                            <div class="faq-item" onclick="toggleFaq(this)">
+                                <div class="faq-question">
+                                    <strong>Q: 無料プランの制限は？</strong>
+                                    <span class="faq-icon">+</span>
+                                </div>
+                                <div class="faq-answer">
+                                    <p>A: 月に1件まで申請書ドラフトを作成できます。申請履歴の保存にはアカウント登録が必要です。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- お問い合わせフォーム -->
+                    <div class="contact-form-section">
+                        <h3>お問い合わせフォーム</h3>
+                        <div class="contact-form-grid">
+                            <div class="form-group">
+                                <label>お名前・会社名</label>
+                                <input type="text" id="contact-name" placeholder="例: 山田太郎 / 株式会社サンプル">
+                            </div>
+                            <div class="form-group">
+                                <label>メールアドレス</label>
+                                <input type="email" id="contact-email" placeholder="例: sample@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>お問い合わせ内容</label>
+                            <textarea id="contact-message" rows="4" placeholder="ご質問・ご要望をご記入ください"></textarea>
+                        </div>
+                        <button class="btn btn-primary btn-lg w-full" onclick="submitContact()">送信する</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AIチャット画面 -->
+        <section id="screen-chat" class="screen">
+            <div class="chat-screen-container">
+                <div class="chat-screen-header">
+                    <h2>🤖 AI相談サポート</h2>
+                    <p>補助金・助成金についてお気軽にご質問ください</p>
+                </div>
+                <div class="chat-screen-body">
+                    <div id="chat-messages" class="chat-messages-screen">
+                        <div class="chat-message assistant">
+                            <div class="message-content">
+                                こんにちは！補助金・助成金についてご質問があればお気軽にどうぞ。
+                            </div>
+                        </div>
+                        <div class="quick-questions">
+                            <p>よくある質問:</p>
+                            <button onclick="sendQuickQuestion('小規模事業者持続化補助金について教えて')">持続化補助金</button>
+                            <button onclick="sendQuickQuestion('IT導入補助金の対象は？')">IT導入補助金</button>
+                            <button onclick="sendQuickQuestion('申請に必要な書類は？')">必要書類</button>
+                            <button onclick="sendQuickQuestion('ものづくり補助金について教えて')">ものづくり補助金</button>
+                        </div>
+                    </div>
+                    <div class="chat-input-area-screen">
+                        <input type="text" id="chat-input" placeholder="質問を入力してEnterで送信..."
+                            onkeypress="handleChatKeypress(event)">
+                        <button class="chat-send-screen" onclick="sendChatMessage()">送信</button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -555,39 +648,12 @@
                 </div>
             </div>
 
-            <div class="pricing-faq">
-                <h3>よくある質問</h3>
-                <div class="faq-item">
-                    <strong>Q: いつでも解約できますか？</strong>
-                    <p>A: はい、いつでも解約可能です。解約後も当月末まではご利用いただけます。</p>
-                </div>
-                <div class="faq-item">
-                    <strong>Q: 支払い方法は？</strong>
-                    <p>A: クレジットカード（Visa, Mastercard, JCB, AMEX）に対応しています。</p>
-                </div>
-            </div>
 
-            <div class="contact-section">
-                <h3>📧 お問い合わせ</h3>
-                <p>ご質問やご要望がございましたら、お気軽にお問い合わせください。</p>
-                <div class="form-group">
-                    <label>お名前・会社名</label>
-                    <input type="text" id="contact-name" placeholder="例: 山田太郎 / 株式会社サンプル">
-                </div>
-                <div class="form-group">
-                    <label>メールアドレス</label>
-                    <input type="email" id="contact-email" placeholder="例: sample@example.com">
-                </div>
-                <div class="form-group">
-                    <label>お問い合わせ内容</label>
-                    <textarea id="contact-message" rows="4" placeholder="ご質問・ご要望をご記入ください"></textarea>
-                </div>
-                <button class="btn btn-primary btn-lg" onclick="submitContact()">送信する</button>
-            </div>
         </div>
     </section>
 
     </div>
+
 
     <script src="/static/app.js"></script>
 </body>

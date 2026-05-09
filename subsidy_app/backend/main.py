@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 import os
 
 from database import engine, Base
-from routers import subsidy, application, user, auth
+from routers import subsidy, application, user, auth, chat
 
 # データベーステーブル作成
 Base.metadata.create_all(bind=engine)
@@ -30,6 +30,7 @@ app.include_router(subsidy.router)
 app.include_router(application.router)
 app.include_router(user.router)
 app.include_router(auth.router)
+app.include_router(chat.router)
 
 # 静的ファイル配信
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
